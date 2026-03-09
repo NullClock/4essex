@@ -1,0 +1,685 @@
+/* 4essex - Dark Mode iOS 6-style Web App */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --bg-color: #1a1a1e;
+  --surface-color: #2c2c2e;
+  --surface-secondary: #3a3a3c;
+  --accent-color: #0a84ff;
+  --accent-secondary: #30d158;
+  --text-primary: #f2f2f7;
+  --text-secondary: #aeaeb2;
+  --text-muted: #636366;
+  --border-color: #38383a;
+  --icon-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==================== STATUS BAR ==================== */
+.status-bar {
+  background-color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  height: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.status-bar-time {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status-bar-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+/* ==================== NAVIGATION BAR ==================== */
+.nav-bar {
+  background: linear-gradient(180deg, #2c2c2e 0%, #1c1c1e 100%);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  height: 44px;
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.nav-bar-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  flex: 1;
+}
+
+.nav-bar-back {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  min-width: 60px;
+}
+
+.nav-bar-back:active {
+  opacity: 0.6;
+}
+
+.nav-bar-spacer {
+  min-width: 60px;
+}
+
+/* ==================== SCREENS ==================== */
+.screen {
+  display: none;
+  padding-top: 64px;
+  min-height: 100vh;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* ==================== HOME SCREEN ==================== */
+#screen-home {
+  background: radial-gradient(ellipse at top, #1e2a3a 0%, #0a0a0e 60%), #0a0a0e;
+}
+
+.home-header {
+  text-align: center;
+  padding: 24px 16px 16px;
+}
+
+.home-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.home-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* iOS 6-style app grid */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 16px 24px 32px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.app-icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.app-icon-wrapper:active .app-icon {
+  transform: scale(0.92);
+  opacity: 0.85;
+}
+
+.app-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--icon-shadow);
+  transition: transform 0.1s ease, opacity 0.1s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* iOS 6 gloss overlay */
+.app-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 100%);
+  border-radius: 18px 18px 0 0;
+  pointer-events: none;
+}
+
+.app-icon-ai {
+  background: linear-gradient(145deg, #0a5de0 0%, #0a2fff 60%, #00cfff 100%);
+}
+
+.app-icon-music {
+  background: linear-gradient(145deg, #1db954 0%, #159040 60%, #0a6630 100%);
+}
+
+.app-icon-instagram {
+  background: linear-gradient(145deg, #833ab4 0%, #c9357a 50%, #fd1d1d 80%, #fcb045 100%);
+}
+
+.app-icon svg {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.app-label {
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-primary);
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Dock */
+.dock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 24px 20px;
+  background: linear-gradient(180deg, rgba(30,30,32,0.6) 0%, rgba(10,10,14,0.95) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dock-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* ==================== AI CHAT SCREEN ==================== */
+#screen-ai {
+  background-color: var(--bg-color);
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.chat-message.assistant {
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.chat-message.user {
+  background-color: var(--accent-color);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-message-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.chat-message.assistant + .chat-message-meta {
+  align-self: flex-start;
+  margin-left: 4px;
+}
+
+.chat-message.user + .chat-message-meta {
+  align-self: flex-end;
+  margin-right: 4px;
+}
+
+.chat-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.chat-empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #0a5de0, #0a2fff, #00cfff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.chat-empty-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.chat-input-bar {
+  padding: 8px 12px 20px;
+  background: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-input {
+  flex: 1;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 15px;
+  color: var(--text-primary);
+  outline: none;
+  font-family: inherit;
+}
+
+.chat-input::placeholder {
+  color: var(--text-muted);
+}
+
+.chat-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chat-send-btn:active {
+  opacity: 0.7;
+}
+
+/* ==================== STREAM MUSIC SCREEN ==================== */
+#screen-music {
+  background: linear-gradient(180deg, #0d2b1a 0%, #091a0f 40%, var(--bg-color) 100%);
+}
+
+.music-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.music-artwork {
+  width: 220px;
+  height: 220px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #1db954, #0a6630);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(29, 185, 84, 0.35);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.music-info {
+  text-align: center;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.music-track-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.music-track-artist {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.music-progress {
+  width: 100%;
+  padding: 0 16px;
+}
+
+.music-progress-bar-track {
+  width: 100%;
+  height: 4px;
+  background-color: var(--surface-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.music-progress-bar-fill {
+  height: 100%;
+  width: 35%;
+  background-color: var(--accent-secondary);
+  border-radius: 2px;
+}
+
+.music-progress-times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.music-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.music-ctrl-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.music-ctrl-btn:active {
+  opacity: 0.6;
+}
+
+.music-ctrl-btn.play-pause {
+  width: 64px;
+  height: 64px;
+  background-color: var(--accent-secondary);
+  color: #fff;
+  border-radius: 50%;
+}
+
+.music-queue {
+  width: 100%;
+  padding: 0 16px;
+}
+
+.music-queue-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.music-queue-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.music-queue-item:last-child {
+  border-bottom: none;
+}
+
+.music-queue-item:active {
+  opacity: 0.6;
+}
+
+.music-queue-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  background: var(--surface-secondary);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-queue-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.music-queue-name {
+  font-size: 14px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-queue-artist {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.music-queue-duration {
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ==================== INSTAGRAM DIRECT SCREEN ==================== */
+#screen-instagram {
+  background-color: var(--bg-color);
+}
+
+.ig-container {
+  padding: 0;
+}
+
+.ig-search-bar {
+  padding: 8px 16px 12px;
+  background: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ig-search-input {
+  width: 100%;
+  background: var(--surface-secondary);
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-family: inherit;
+  outline: none;
+}
+
+.ig-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.ig-section-label {
+  padding: 12px 16px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ig-conversation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.ig-conversation:active {
+  background-color: var(--surface-secondary);
+}
+
+.ig-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--surface-secondary);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.ig-avatar.has-story::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--bg-color), var(--bg-color)) padding-box,
+              linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045) border-box;
+}
+
+.ig-unread-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  border: 2px solid var(--bg-color);
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+}
+
+.ig-conv-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ig-conv-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.ig-conv-preview {
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ig-conv-preview.unread {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.ig-conv-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* ==================== MISC UTILITIES ==================== */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
