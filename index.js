@@ -1,62 +1,58 @@
 /**
  * 4essex — index.js
- * Basic navigation and UI helpers (no backend logic).
+ * App-specific navigation and UI helpers built on iWebKit 5.
  */
 
-/* ==================== SCREEN NAVIGATION ==================== */
+/* ==================== SCREEN CONFIGS ==================== */
 
-/**
- * Show a named screen and hide all others.
- * @param {string} screenId - 'home' | 'ai' | 'music' | 'instagram'
- */
-function showScreen(screenId) {
-  var screens = document.querySelectorAll('.screen');
-  for (var i = 0; i < screens.length; i++) {
-    screens[i].classList.remove('active');
+var screenConfigs = {
+  home: {
+    title: '4essex',
+    backLabel: null
+  },
+  ai: {
+    title: 'AI Chat',
+    backLabel: 'Back',
+    backTarget: 'home'
+  },
+  music: {
+    title: 'Stream Music',
+    backLabel: 'Back',
+    backTarget: 'home'
+  },
+  instagram: {
+    title: 'Direct',
+    backLabel: 'Back',
+    backTarget: 'home'
   }
+};
 
-  var target = document.getElementById('screen-' + screenId);
-  if (target) {
-    target.classList.add('active');
-    window.scrollTo(0, 0);
-  }
-}
+/* ==================== NAVIGATION ==================== */
 
-/**
- * Keyboard navigation helper for app icons (Enter / Space to activate).
- * @param {KeyboardEvent} event
- * @param {string} screenId
- */
-function handleKeyNav(event, screenId) {
-  if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault();
-    showScreen(screenId);
-  }
-}
+// Listen for iWebKit screen-change events and update the topbar
+document.addEventListener('iwscreenchange', function (e) {
+  var id = e.detail;
+  var cfg = screenConfigs[id];
+  if (cfg) iwSetTopbar(cfg);
+});
 
 /* ==================== STATUS BAR CLOCK ==================== */
 
 /**
- * Update the status-bar clock to the current local time (12-hour, no seconds).
+ * iWebKit 5 topbar shows the title, not a status bar clock.
+ * We do not simulate a status bar; this function is kept as
+ * a no-op so nothing breaks if called elsewhere.
  */
 function updateClock() {
-  var el = document.getElementById('status-time');
-  if (!el) return;
-
-  var now = new Date();
-  var h = now.getHours();
-  var m = now.getMinutes();
-  var ampm = h >= 12 ? 'PM' : 'AM';
-  h = h % 12 || 12;
-  el.textContent = h + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
+  /* no-op: iWebKit 5 does not include a custom status bar */
 }
 
-/* ==================== AI CHAT (layout only) ==================== */
+/* ==================== AI CHAT ==================== */
 
 /**
  * Append a message bubble to the chat view.
- * @param {string} text - Message text
- * @param {'user'|'assistant'} role - Who sent the message
+ * @param {string} text
+ * @param {'user'|'assistant'} role
  */
 function appendChatMessage(text, role) {
   var container = document.getElementById('chat-messages');
@@ -75,41 +71,38 @@ function appendChatMessage(text, role) {
 }
 
 /**
- * Handle the send-button / Enter-key action in the chat input.
- * NOTE: No AI backend logic is wired up — this only updates the UI.
+ * Handle the send-button / Enter-key action.
+ * NOTE: No AI backend logic is wired up — UI only.
  */
 function handleChatSend() {
   var input = document.getElementById('chat-input');
-  var text = input ? input.value.trim() : '';
+  var text  = input ? input.value.trim() : '';
   if (!text) return;
 
   appendChatMessage(text, 'user');
   input.value = '';
-
   // Placeholder: assistant reply will be added here when logic is implemented
 }
 
-/* ==================== MUSIC PLAYER (layout only) ==================== */
+/* ==================== MUSIC PLAYER ==================== */
 
 var musicPlaying = false;
 
 /**
- * Toggle the play/pause state of the music player UI.
- * NOTE: No audio streaming logic is wired up — this only updates the UI.
+ * Toggle play/pause state in the music UI.
+ * NOTE: No audio streaming logic — UI only.
  */
 function toggleMusicPlay() {
   musicPlaying = !musicPlaying;
   var iconEl = document.getElementById('music-play-icon');
-  var btnEl = document.getElementById('music-play');
+  var btnEl  = document.getElementById('music-play');
 
   if (!iconEl || !btnEl) return;
 
   if (musicPlaying) {
-    // Show pause icon
     iconEl.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
     btnEl.setAttribute('aria-label', 'Pause');
   } else {
-    // Show play icon
     iconEl.innerHTML = '<path d="M8 5v14l11-7z"/>';
     btnEl.setAttribute('aria-label', 'Play');
   }
@@ -118,15 +111,13 @@ function toggleMusicPlay() {
 /* ==================== BOOT ==================== */
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Start status-bar clock
-  updateClock();
-  setInterval(updateClock, 30000);
+  // Initialise topbar for the home screen
+  var homeCfg = screenConfigs.home;
+  if (homeCfg) iwSetTopbar(homeCfg);
 
   // Chat send button
   var sendBtn = document.getElementById('chat-send');
-  if (sendBtn) {
-    sendBtn.addEventListener('click', handleChatSend);
-  }
+  if (sendBtn) sendBtn.addEventListener('click', handleChatSend);
 
   // Chat input — send on Enter
   var chatInput = document.getElementById('chat-input');
@@ -141,7 +132,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Music play/pause button
   var playBtn = document.getElementById('music-play');
-  if (playBtn) {
-    playBtn.addEventListener('click', toggleMusicPlay);
-  }
+  if (playBtn) playBtn.addEventListener('click', toggleMusicPlay);
 });

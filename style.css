@@ -1,376 +1,189 @@
-/* 4essex - Dark Mode iOS 6-style Web App */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-
-:root {
-  --bg-color: #1a1a1e;
-  --surface-color: #2c2c2e;
-  --surface-secondary: #3a3a3c;
-  --accent-color: #0a84ff;
-  --accent-secondary: #30d158;
-  --text-primary: #f2f2f7;
-  --text-secondary: #aeaeb2;
-  --text-muted: #636366;
-  --border-color: #38383a;
-  --icon-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-}
-
-body {
-  background-color: var(--bg-color);
-  color: var(--text-primary);
-  font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ==================== STATUS BAR ==================== */
-.status-bar {
-  background-color: #000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 12px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-primary);
-  height: 20px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-}
-
-.status-bar-time {
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.status-bar-icons {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-}
-
-/* ==================== NAVIGATION BAR ==================== */
-.nav-bar {
-  background: linear-gradient(180deg, #2c2c2e 0%, #1c1c1e 100%);
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 16px;
-  height: 44px;
-  position: fixed;
-  top: 20px;
-  left: 0;
-  right: 0;
-  z-index: 100;
-}
-
-.nav-bar-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-align: center;
-  flex: 1;
-}
-
-.nav-bar-back {
-  background: none;
-  border: none;
-  color: var(--accent-color);
-  font-size: 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 0;
-  min-width: 60px;
-}
-
-.nav-bar-back:active {
-  opacity: 0.6;
-}
-
-.nav-bar-spacer {
-  min-width: 60px;
-}
+/*
+ * 4essex — app-specific styles
+ * Builds on top of iwebkit.css
+ */
 
 /* ==================== SCREENS ==================== */
-.screen {
+.iw-screen {
   display: none;
-  padding-top: 64px;
-  min-height: 100vh;
 }
 
-.screen.active {
+.iw-screen.iw-screen-active {
   display: block;
 }
 
-/* ==================== HOME SCREEN ==================== */
-#screen-home {
-  background-color: var(--bg-color);
+/* Sub-screen content (non-home screens scroll below the fixed topbar) */
+.iw-screen-content {
+  margin-top: 44px;
+  min-height: calc(100vh - 44px);
+  padding: 9px 9px 20px;
 }
 
-/* Scrollable area below the fixed nav/status bars */
-.menu-scroll {
-  padding: 16px 0 32px;
-  overflow-y: auto;
-}
-
-/* iOS 6 grouped-table section header */
-.menu-section-header {
-  padding: 0 20px 6px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: var(--text-muted);
-}
-
-/* iOS 6 grouped-table section footer */
-.menu-section-footer {
-  padding: 8px 20px 0;
-  font-size: 12px;
-  color: var(--text-muted);
-  text-align: center;
-}
-
-/* Rounded card group (UITableView grouped style) */
-.menu-group {
-  margin: 0 16px;
-  background-color: var(--surface-color);
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-}
-
-/* Single row */
-.menu-row {
-  display: flex;
-  align-items: center;
-  padding: 10px 14px;
-  min-height: 52px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-  gap: 12px;
-  background-color: var(--surface-color);
-  transition: background-color 0.1s ease;
-}
-
-.menu-row:active {
-  background-color: var(--surface-secondary);
-}
-
-/* Inset separator between rows */
-.menu-separator {
-  height: 1px;
-  background-color: var(--border-color);
-  margin-left: 56px; /* inset to align with text, past the icon */
-}
-
-/* Colored icon square (like iOS 6 Settings icons) */
-.menu-row-icon {
-  width: 32px;
-  height: 32px;
+/* ==================== ICON COLOURS ==================== */
+/* Coloured squares for list row icons */
+.iw-icon {
+  width: 29px;
+  height: 29px;
   border-radius: 7px;
   flex-shrink: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
-/* iOS 6 gloss shine on small icons */
-.menu-row-icon::after {
+.iw-icon::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.04) 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.04) 100%);
   border-radius: 7px 7px 0 0;
   pointer-events: none;
 }
 
-.menu-icon-ai {
-  background: linear-gradient(145deg, #0a5de0 0%, #0a2fff 55%, #00cfff 100%);
+.iw-icon-ai {
+  background: linear-gradient(145deg, #1060d0 0%, #0840c0 55%, #00b8e8 100%);
 }
 
-.menu-icon-music {
-  background: linear-gradient(145deg, #1db954 0%, #159040 55%, #0a6630 100%);
+.iw-icon-music {
+  background: linear-gradient(145deg, #1db954 0%, #138a3a 55%, #0a5a28 100%);
 }
 
-.menu-icon-instagram {
+.iw-icon-instagram {
   background: linear-gradient(145deg, #833ab4 0%, #c9357a 50%, #fd1d1d 80%, #fcb045 100%);
 }
 
-/* Row text block */
-.menu-row-body {
-  flex: 1;
+.iw-icon-music-sm {
+  width: 29px;
+  height: 29px;
+  background: linear-gradient(145deg, #1db954 0%, #0a5a28 100%);
+}
+
+/* Row body (title + subtitle stacked) */
+.iw-row-body {
   display: flex;
   flex-direction: column;
+  flex: 1;
   min-width: 0;
 }
 
-.menu-row-title {
+.iw-row-title {
   font-size: 16px;
+  color: #000;
   font-weight: 400;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.menu-row-subtitle {
+.iw-row-subtitle {
   font-size: 12px;
-  color: var(--text-muted);
+  color: #8e8e93;
   margin-top: 1px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Disclosure chevron */
-.menu-row-chevron {
-  color: var(--text-muted);
-  flex-shrink: 0;
-  opacity: 0.7;
 }
 
 /* ==================== AI CHAT SCREEN ==================== */
-#screen-ai {
-  background-color: var(--bg-color);
-}
-
-.chat-container {
+#content-ai {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 64px);
+  padding: 0;
+  height: calc(100vh - 44px);
 }
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  background: #c5c5c5;
 }
 
 .chat-message {
-  max-width: 80%;
-  padding: 10px 14px;
-  border-radius: 18px;
+  max-width: 78%;
+  padding: 9px 13px;
+  border-radius: 16px;
   font-size: 15px;
   line-height: 1.4;
 }
 
 .chat-message.assistant {
-  background-color: var(--surface-color);
-  color: var(--text-primary);
+  background-color: #fff;
+  color: #000;
   align-self: flex-start;
   border-bottom-left-radius: 4px;
 }
 
 .chat-message.user {
-  background-color: var(--accent-color);
+  background-color: #4a80cc;
   color: #fff;
   align-self: flex-end;
   border-bottom-right-radius: 4px;
 }
 
-.chat-message-meta {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-
-.chat-message.assistant + .chat-message-meta {
-  align-self: flex-start;
-  margin-left: 4px;
-}
-
-.chat-message.user + .chat-message-meta {
-  align-self: flex-end;
-  margin-right: 4px;
-}
-
+/* Empty state */
 .chat-empty {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   padding: 32px;
-  color: var(--text-muted);
   text-align: center;
 }
 
 .chat-empty-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  background: linear-gradient(145deg, #0a5de0, #0a2fff, #00cfff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
 }
 
 .chat-empty-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-secondary);
+  font-size: 17px;
+  font-weight: bold;
+  color: #4d6282;
 }
 
 .chat-empty-subtitle {
   font-size: 13px;
-  color: var(--text-muted);
+  color: #8e8e93;
 }
 
+/* Input bar */
 .chat-input-bar {
-  padding: 8px 12px 20px;
-  background: var(--surface-color);
-  border-top: 1px solid var(--border-color);
+  padding: 7px 10px 12px;
+  background: #e8e8ed;
+  border-top: 1px solid #c8c7cc;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
 }
 
 .chat-input {
   flex: 1;
-  background: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 8px 14px;
+  background: #fff;
+  border: 1px solid #c8c7cc;
+  border-radius: 18px;
+  padding: 7px 12px;
   font-size: 15px;
-  color: var(--text-primary);
+  color: #000;
   outline: none;
   font-family: inherit;
 }
 
 .chat-input::placeholder {
-  color: var(--text-muted);
+  color: #8e8e93;
 }
 
 .chat-send-btn {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background-color: var(--accent-color);
+  background: linear-gradient(180deg, #6d84a2 0%, #4a6990 100%);
   border: none;
   cursor: pointer;
   display: flex;
@@ -380,62 +193,55 @@ body {
 }
 
 .chat-send-btn:active {
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 /* ==================== STREAM MUSIC SCREEN ==================== */
-#screen-music {
-  background: linear-gradient(180deg, #0d2b1a 0%, #091a0f 40%, var(--bg-color) 100%);
-}
-
-.music-container {
-  padding: 16px;
-  display: flex;
+.music-now-playing {
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  gap: 12px;
+  padding: 14px 10px !important;
 }
 
 .music-artwork {
-  width: 220px;
-  height: 220px;
-  border-radius: 16px;
-  background: linear-gradient(145deg, #1db954, #0a6630);
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #1db954, #0a5a28);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 32px rgba(29, 185, 84, 0.35);
-  margin-top: 8px;
+  box-shadow: 0 4px 16px rgba(29, 185, 84, 0.4);
   flex-shrink: 0;
 }
 
 .music-info {
   text-align: center;
   width: 100%;
-  padding: 0 16px;
 }
 
 .music-track-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 4px;
+  font-size: 17px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 3px;
 }
 
 .music-track-artist {
-  font-size: 14px;
-  color: var(--text-secondary);
+  font-size: 13px;
+  color: #8e8e93;
 }
 
-.music-progress {
-  width: 100%;
-  padding: 0 16px;
+.music-progress-row {
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 14px !important;
 }
 
 .music-progress-bar-track {
   width: 100%;
   height: 4px;
-  background-color: var(--surface-secondary);
+  background: #c8c7cc;
   border-radius: 2px;
   overflow: hidden;
   cursor: pointer;
@@ -444,33 +250,35 @@ body {
 .music-progress-bar-fill {
   height: 100%;
   width: 35%;
-  background-color: var(--accent-secondary);
+  background: #1db954;
   border-radius: 2px;
 }
 
 .music-progress-times {
   display: flex;
   justify-content: space-between;
-  margin-top: 6px;
-  font-size: 12px;
-  color: var(--text-muted);
+  font-size: 11px;
+  color: #8e8e93;
+  width: 100%;
+}
+
+.music-controls-row {
+  padding: 6px 10px !important;
 }
 
 .music-controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 32px;
+  justify-content: space-between;
   width: 100%;
-  padding: 0 16px;
 }
 
 .music-ctrl-btn {
   background: none;
   border: none;
-  color: var(--text-secondary);
+  color: #4d6282;
   cursor: pointer;
-  padding: 8px;
+  padding: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -478,215 +286,76 @@ body {
 }
 
 .music-ctrl-btn:active {
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
-.music-ctrl-btn.play-pause {
-  width: 64px;
-  height: 64px;
-  background-color: var(--accent-secondary);
+.music-play-pause {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(180deg, #6d84a2 0%, #4a6990 100%);
   color: #fff;
   border-radius: 50%;
+  border: 1px solid #2c4a6e;
 }
 
-.music-queue {
-  width: 100%;
-  padding: 0 16px;
-}
-
-.music-queue-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 12px;
-}
-
-.music-queue-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border-color);
-  cursor: pointer;
-}
-
-.music-queue-item:last-child {
-  border-bottom: none;
-}
-
-.music-queue-item:active {
-  opacity: 0.6;
-}
-
-.music-queue-thumb {
-  width: 44px;
-  height: 44px;
-  border-radius: 6px;
-  background: var(--surface-secondary);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.music-queue-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.music-queue-name {
-  font-size: 14px;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.music-queue-artist {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-.music-queue-duration {
-  font-size: 12px;
-  color: var(--text-muted);
-  flex-shrink: 0;
-}
-
-/* ==================== INSTAGRAM DIRECT SCREEN ==================== */
-#screen-instagram {
-  background-color: var(--bg-color);
-}
-
-.ig-container {
-  padding: 0;
-}
-
+/* ==================== INSTAGRAM DIRECT ==================== */
 .ig-search-bar {
-  padding: 8px 16px 12px;
-  background: var(--surface-color);
-  border-bottom: 1px solid var(--border-color);
+  padding: 7px 9px 10px;
 }
 
 .ig-search-input {
   width: 100%;
-  background: var(--surface-secondary);
-  border: none;
-  border-radius: 10px;
-  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid #b8b8c0;
+  border-radius: 9px;
+  padding: 7px 12px;
   font-size: 14px;
-  color: var(--text-primary);
+  color: #000;
   font-family: inherit;
   outline: none;
 }
 
 .ig-search-input::placeholder {
-  color: var(--text-muted);
+  color: #8e8e93;
 }
 
-.ig-section-label {
-  padding: 12px 16px 6px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.ig-conversation {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  cursor: pointer;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-
-.ig-conversation:active {
-  background-color: var(--surface-secondary);
-}
-
+/* Avatar circle */
 .ig-avatar {
-  width: 52px;
-  height: 52px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: var(--surface-secondary);
+  background: #b0b8c8;
   flex-shrink: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-secondary);
+  font-size: 17px;
+  font-weight: bold;
+  color: #fff;
   position: relative;
 }
 
-.ig-avatar.has-story::after {
+.ig-avatar-story::before {
   content: '';
   position: absolute;
   inset: -3px;
   border-radius: 50%;
-  border: 2px solid transparent;
-  background: linear-gradient(var(--bg-color), var(--bg-color)) padding-box,
-              linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045) border-box;
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+  z-index: -1;
 }
 
 .ig-unread-dot {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background-color: var(--accent-color);
-  border: 2px solid var(--bg-color);
+  background: #4a80cc;
+  border: 2px solid #c5c5c5;
   position: absolute;
-  bottom: 2px;
-  right: 2px;
+  bottom: 1px;
+  right: 1px;
 }
 
-.ig-conv-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.ig-conv-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 2px;
-}
-
-.ig-conv-preview {
-  font-size: 13px;
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ig-conv-preview.unread {
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-.ig-conv-time {
-  font-size: 11px;
-  color: var(--text-muted);
-  flex-shrink: 0;
-}
-
-/* ==================== SCROLLBAR ==================== */
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-/* ==================== MISC UTILITIES ==================== */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+.ig-unread {
+  color: #000 !important;
+  font-weight: 500 !important;
 }
