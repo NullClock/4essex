@@ -117,130 +117,137 @@ body {
 
 /* ==================== HOME SCREEN ==================== */
 #screen-home {
-  background: radial-gradient(ellipse at top, #1e2a3a 0%, #0a0a0e 60%), #0a0a0e;
+  background-color: var(--bg-color);
 }
 
-.home-header {
+/* Scrollable area below the fixed nav/status bars */
+.menu-scroll {
+  padding: 16px 0 32px;
+  overflow-y: auto;
+}
+
+/* iOS 6 grouped-table section header */
+.menu-section-header {
+  padding: 0 20px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+}
+
+/* iOS 6 grouped-table section footer */
+.menu-section-footer {
+  padding: 8px 20px 0;
+  font-size: 12px;
+  color: var(--text-muted);
   text-align: center;
-  padding: 24px 16px 16px;
 }
 
-.home-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.5px;
+/* Rounded card group (UITableView grouped style) */
+.menu-group {
+  margin: 0 16px;
+  background-color: var(--surface-color);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
-.home-subtitle {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-top: 4px;
-}
-
-/* iOS 6-style app grid */
-.app-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  padding: 16px 24px 32px;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-.app-icon-wrapper {
+/* Single row */
+.menu-row {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  padding: 10px 14px;
+  min-height: 52px;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
+  gap: 12px;
+  background-color: var(--surface-color);
+  transition: background-color 0.1s ease;
 }
 
-.app-icon-wrapper:active .app-icon {
-  transform: scale(0.92);
-  opacity: 0.85;
+.menu-row:active {
+  background-color: var(--surface-secondary);
 }
 
-.app-icon {
-  width: 76px;
-  height: 76px;
-  border-radius: 18px;
+/* Inset separator between rows */
+.menu-separator {
+  height: 1px;
+  background-color: var(--border-color);
+  margin-left: 56px; /* inset to align with text, past the icon */
+}
+
+/* Colored icon square (like iOS 6 Settings icons) */
+.menu-row-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--icon-shadow);
-  transition: transform 0.1s ease, opacity 0.1s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
-/* iOS 6 gloss overlay */
-.app-icon::before {
+/* iOS 6 gloss shine on small icons */
+.menu-row-icon::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 100%);
-  border-radius: 18px 18px 0 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.04) 100%);
+  border-radius: 7px 7px 0 0;
   pointer-events: none;
 }
 
-.app-icon-ai {
-  background: linear-gradient(145deg, #0a5de0 0%, #0a2fff 60%, #00cfff 100%);
+.menu-icon-ai {
+  background: linear-gradient(145deg, #0a5de0 0%, #0a2fff 55%, #00cfff 100%);
 }
 
-.app-icon-music {
-  background: linear-gradient(145deg, #1db954 0%, #159040 60%, #0a6630 100%);
+.menu-icon-music {
+  background: linear-gradient(145deg, #1db954 0%, #159040 55%, #0a6630 100%);
 }
 
-.app-icon-instagram {
+.menu-icon-instagram {
   background: linear-gradient(145deg, #833ab4 0%, #c9357a 50%, #fd1d1d 80%, #fcb045 100%);
 }
 
-.app-icon svg {
-  width: 40px;
-  height: 40px;
-  position: relative;
-  z-index: 1;
+/* Row text block */
+.menu-row-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.app-label {
-  margin-top: 6px;
-  font-size: 11px;
+.menu-row-title {
+  font-size: 16px;
   font-weight: 400;
   color: var(--text-primary);
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-  max-width: 80px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-/* Dock */
-.dock {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px 24px 20px;
-  background: linear-gradient(180deg, rgba(30,30,32,0.6) 0%, rgba(10,10,14,0.95) 100%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255,255,255,0.08);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.dock-label {
-  font-size: 11px;
+.menu-row-subtitle {
+  font-size: 12px;
   color: var(--text-muted);
-  text-align: center;
-  letter-spacing: 0.5px;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Disclosure chevron */
+.menu-row-chevron {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  opacity: 0.7;
 }
 
 /* ==================== AI CHAT SCREEN ==================== */
